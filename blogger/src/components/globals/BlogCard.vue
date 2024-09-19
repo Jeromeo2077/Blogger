@@ -12,9 +12,13 @@ const props = defineProps({
 <template>
   <div class="container">
     <section class="row">
-      <div class="col-12">
-        {{ blogProp.title }}
-
+      <div class="col-4">
+        <img class="blog-img img-fluid" :src="blogProp.imgUrl" :alt="blogProp.title">
+      </div>
+      <div class="col-8">
+        <h2>
+          {{ blogProp.title }}
+        </h2>
       </div>
     </section>
   </div>
@@ -22,4 +26,11 @@ const props = defineProps({
 </template>
 
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.blog-img {
+  object-fit: cover;
+  object-position: center;
+  height: 35dvh;
+  width: 100%
+}
+</style>
