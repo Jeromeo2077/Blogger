@@ -19,6 +19,7 @@ const props = defineProps({
         <h2>
           {{ blogProp.title }}
         </h2>
+        <h3 class="blog-text">{{ blogProp.body.slice(0, 350) }}...</h3>
       </div>
     </section>
   </div>
