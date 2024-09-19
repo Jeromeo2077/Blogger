@@ -1,0 +1,34 @@
+{
+  "Vue Template with Imports": {
+    "prefix": "vt:imports",
+    "body": [
+      "<script setup>\nimport { AppState } from '../AppState';\nimport { computed, ref, onMounted } from 'vue';\n${2}\n</script>\n\n",
+      "<template>\n\t<div class=\"${1:component}\">\n\n\n\t</div>\n</template>\n\n",
+      "<style lang=\"scss\" scoped>\n.${1:component}{\n${3}\n}\n\n</style>"
+    ],
+    "description": "A simple vue template builder",
+    "isFileTemplate": true,
+  },
+  "Vue Template Basic": {
+    "prefix": "vt:basic",
+    "body": [
+      "<script setup>\n${1}\n</script>\n\n",
+      "<template>\n${2}\n</template>\n\n",
+      "<style lang=\"scss\" scoped>\n${3}\n</style>"
+    ],
+    "description": "A simple vue template builder",
+    "isFileTemplate": true,
+  },
+  "TryCatch": {
+    "prefix": "trycatch:Pop",
+    "body": [
+      "try {",
+      "  $0",
+      "}",
+      "catch (error){",
+      "  Pop.error(error);",
+      "}"
+    ],
+    "scope": "javascript,typescript,javascriptreact,typescriptreact"
+  }
+}

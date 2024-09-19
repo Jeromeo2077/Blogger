@@ -1,0 +1,15 @@
+.skeleton-loader {
+  position: relative;
+  animation: load .75s cubic-bezier(0.4, 0.0, 0.2, 1) alternate infinite;
+  pointer-events: none;
+}
+
+@keyframes load {
+  from {
+    opacity: 0.45;
+  }
+
+  to {
+    opacity: .85;
+  }
+}

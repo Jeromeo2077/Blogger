@@ -1,0 +1,143 @@
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/variables-dark";
+@import "../../../node_modules/bootstrap/scss/maps";
+@import "../../../node_modules/bootstrap/scss/mixins";
+@import "../../../node_modules/bootstrap/scss/utilities";
+
+$light-theme: (
+  "primary": #066ac9,
+  "secondary": #071e3b,
+  "success": #0cbc87,
+  "info": #17a2b8,
+  "warning": #f7c32e,
+  "danger": #d6293e,
+  "text": #f8f9fd,
+  "page": #f4f4f4
+);
+
+$dark-theme: (
+  "primary": #ff22ff,
+  "secondary": #2fff9a,
+  "success": #aa49f9,
+  "info": #01efb6,
+  "warning": #ffda6a,
+  "danger": #ea868f,
+  "text": #b1aafa,
+  "page": #0a081b,
+  "dark": #030110,
+  "body-bg": #020314
+);
+
+$default-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "success": $success,
+  "info": $info,
+  "warning": $warning,
+  "danger": $danger,
+  "white": $white,
+  "light": $light,
+  "dark": $dark,
+  "custom": #3ba5dc
+);
+
+@import "bootstrap";
+
+@mixin generate-theme-properties($theme, $overrides-colors) {
+  $theme-colors: map-merge($default-colors, $overrides-colors);
+
+  @each $color, $value in $theme-colors {
+    $color-variation: 35%;
+    $shade-amount: 60%;
+
+    --#{$variable-prefix}#{$color}: #{$value};
+    --#{$variable-prefix}#{$color}-text-emphasis: #{if(
+        $theme == "light",
+        shade-color($value, $shade-amount),
+        tint-color($value, $shade-amount)
+      )};
+    --#{$variable-prefix}#{$color}-bg-subtle: #{if(
+        $theme == "light",
+        lighten($value, $color-variation),
+        darken($value, $color-variation)
+      )};
+    --#{$variable-prefix}#{$color}-border-subtle: #{if(
+        $theme == "light",
+        lighten($value, calc($color-variation / 2)),
+        darken($value, calc($color-variation / 2))
+      )};
+      .text-#{$color} {
+        --bs-color: #{$value};
+      }
+      .border-#{$color}{
+        --bs-border-color: #{$value};
+      }
+      .outline{
+        outline-style: var(--bs-outline-style, solid);
+        outline-width: var(--bs-outline-width, 1px);
+        outline-color: var(--bs-outline-color, var(--bs-primary));
+      }
+      .outline-#{$color}{
+        --bs-outline-color: #{$value};
+      }
+    }
+    
+    // Redefine theme color rgb vars (used for bg- colors)
+    $theme-colors-rgb: map-loop($theme-colors, to-rgb, "$value");
+    @each $color, $value in $theme-colors-rgb {
+      --#{$variable-prefix}#{$color}-rgb: #{$value};
+    .bg-#{$color} {
+      background-color: rgba($value, var(--bs-bg-opacity));
+    }
+    .focus-ring-#{$color}{
+      --bs-focus-ring-color: rgba(#{$value} , .25);
+    }
+  }
+
+  @each $color, $value in $theme-colors {
+    .btn-#{$color} {
+      @if $theme == "light" {
+        @include button-variant(
+          $value,
+          $value,
+          $hover-background: shade-color($value, $btn-hover-bg-shade-amount),
+          $hover-border: shade-color($value, $btn-hover-border-shade-amount),
+          $active-background: shade-color($value, $btn-active-bg-shade-amount),
+          $active-border: shade-color($value, $btn-active-border-shade-amount),
+          $disabled-background: transparentize($value, .25),
+          $disabled-border: transparentize($value, .25),
+        );
+      } @else if $theme == "dark" {
+        @include button-variant(
+          $value,
+          $value,
+          $hover-background: tint-color($value, $btn-hover-bg-tint-amount),
+          $hover-border: tint-color($value, $btn-hover-border-tint-amount),
+          $active-background: tint-color($value, $btn-active-bg-tint-amount),
+          $active-border: tint-color($value, $btn-active-border-tint-amount),
+          $disabled-background: transparentize($value, .25),
+          $disabled-border: transparentize($value, .25),
+        );
+      } @else {
+        @include button-variant($value, $value);
+      }
+    }
+  }
+
+  @each $color, $value in $theme-colors {
+    .btn-outline-#{$color} {
+      @include button-outline-variant($value);
+    }
+  }
+}
+
+[data-bs-theme="light"] {
+  @include generate-theme-properties("light", $light-theme);
+}
+
+[data-bs-theme="dark"] {
+  @include generate-theme-properties("dark", $dark-theme);
+}
+
+@debug "[sass_success] Themes_Built";
