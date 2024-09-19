@@ -1,13 +1,15 @@
 <script setup>
+import { AppState } from '@/AppState.js';
 import { blogsService } from '@/services/BlogsService.js';
 import { logger } from '@/utils/Logger.js';
 import Pop from '@/utils/Pop.js';
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
+
+const blogs = computed(() => AppState.blogs)
 
 onMounted(() => {
   getAllBlogs()
 })
-
 
 async function getAllBlogs() {
   try {
@@ -24,7 +26,7 @@ async function getAllBlogs() {
   <div class="container">
     <div class="section row">
       <div class="col-12">
-
+        {{ blogs }}
       </div>
     </div>
   </div>
